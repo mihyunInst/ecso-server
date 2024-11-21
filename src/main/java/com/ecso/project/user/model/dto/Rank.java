@@ -10,20 +10,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
 @Entity
+@ToString
 @Table(name = "RANK")
 public class Rank {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "RANK_NO")
     private Long rankNo;
 
     @Column(name = "RANK_TITLE", length = 10, nullable = false)
     private String rankTitle;
 
-    @OneToMany(mappedBy = "rank")
-    private List<User> users = new ArrayList<>();
     
 }
