@@ -23,6 +23,11 @@ public class JwtUtil {
     
     @Value("${jwt.refresh-token-validity}")
     private long refreshTokenValidity; // 2주
+    
+    @Value("${jwt.verification-token-validity}")
+    private long verificationTokenValidity; // 5분 (임시용)
+    
+    
 
     // 비밀키 생성
     private SecretKey getSigningKey() {
@@ -38,6 +43,11 @@ public class JwtUtil {
     public String generateRefreshToken(String userEmail) {
         return generateToken(userEmail, null, refreshTokenValidity);
     }
+    
+	// Verification Token 생성(임시발급용)
+	public String generateVerificationToken(String userEmail) {
+		return generateToken(userEmail, null, verificationTokenValidity);
+	}
 
     // 토큰 생성 메소드
     private String generateToken(String userEmail, String userRole, long validity) {
@@ -86,4 +96,6 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
+
 }

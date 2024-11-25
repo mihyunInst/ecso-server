@@ -10,4 +10,10 @@
 		JOIN "RANK" USING(RANK_NO)
 		WHERE USER_EMAIL = #{userEmail} 
 	</select>
+	
+	<select id="checkDupEmail" resultType="_int">
+		SELECT COUNT(*) 
+		FROM "TB_USER"
+		WHERE USER_EMAIL = #{email}
+	</select>
 </mapper>
