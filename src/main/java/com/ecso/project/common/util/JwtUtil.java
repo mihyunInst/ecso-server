@@ -35,27 +35,26 @@ public class JwtUtil {
     }
 
     // Access Token 생성
-    public String generateAccessToken(String userEmail, String userRole) {
-        return generateToken(userEmail, userRole, accessTokenValidity);
+    public String generateAccessToken(int userNo, String userEmail) {
+        return generateToken(userNo, userEmail, accessTokenValidity);
     }
 
     // Refresh Token 생성
-    public String generateRefreshToken(String userEmail) {
-        return generateToken(userEmail, null, refreshTokenValidity);
+    public String generateRefreshToken(int userNo, String userEmail) {
+        return generateToken(userNo, userEmail, refreshTokenValidity);
     }
     
 	// Verification Token 생성(임시발급용)
-	public String generateVerificationToken(String userEmail) {
+	/*public String generateVerificationToken(String userEmail) {
 		return generateToken(userEmail, null, verificationTokenValidity);
-	}
+	}*/
 
     // 토큰 생성 메소드
-    private String generateToken(String userEmail, String userRole, long validity) {
+    private String generateToken(int userNo, String userEmail, long validity) {
         Map<String, Object> claims = new HashMap<>();
+        
+        claims.put("userNo", userNo);
         claims.put("userEmail", userEmail);
-        if (userRole != null) {
-            claims.put("role", userRole);
-        }
 
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -73,6 +72,12 @@ public class JwtUtil {
     public String getUserEmailFromToken(String token) {
         Claims claims = getAllClaimsFromToken(token);
         return claims.get("userEmail", String.class);
+    }
+    
+    // 토큰에서 회원번호 추출
+    public int getUserNoFromToken(String token) {
+    	Claims claims = getAllClaimsFromToken(token);
+    	return claims.get("userNo", Integer.class);
     }
 
     // 토큰 유효성 검사

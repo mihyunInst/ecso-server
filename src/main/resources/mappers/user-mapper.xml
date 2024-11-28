@@ -16,4 +16,30 @@
 		FROM "TB_USER"
 		WHERE USER_EMAIL = #{email}
 	</select>
+	
+	<insert id="signUp">
+		INSERT INTO "TB_USER" 
+		VALUES ( SEQ_USER_NO.NEXTVAL, #{userName}, 
+		    #{userEmail}, 
+		    #{userPw}, 
+		    #{userPhone},
+		    'S', 
+		    DEFAULT,
+		   	#{classTerm}, 
+		    DEFAULT,
+		    1
+		)
+	</insert>
+	
+	<select id="checkDupPhone" resultType="_int">
+		SELECT COUNT(*) 
+		FROM "TB_USER"
+		WHERE USER_PHONE = #{userPhone}
+	</select>
+	
+	<select id="getUserByEmail">
+		SELECT USER_NO, USER_EMAIL
+		FROM "TB_USER"
+		WHERE USER_EMAIL = #{email}
+	</select>
 </mapper>
